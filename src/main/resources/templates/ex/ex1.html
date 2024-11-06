@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+[AA, BB, CC]
+<h4>[[${list}]]</h4>
+<h4 th:text="${list}"></h4>
+
+<a th:href="@{/hello(name='AAA', age=16)}">Go to /hello</a>
+<a th:href="@{/hello(name='한글 공백 처리', age=16)}">Go to /hello</a>
+
+<a th:href="@{/hello(types=${ {'AA', 'BB', 'CC' } }, age=16)}">Go to /hello</a>
+</body>
+</html>
