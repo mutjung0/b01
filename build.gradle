@@ -50,6 +50,9 @@ dependencies {
 	annotationProcessor 'javax.persistence:javax.persistence-api'
 
 	implementation 'org.modelmapper:modelmapper:3.1.0'
+
+	// Thymeleaf layout
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 }
 
 tasks.named('test') {
