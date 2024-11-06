@@ -90,4 +90,35 @@ public class BoardRepositoryTests {
         List<Board> todoList = result.getContent();
         todoList.forEach(board -> log.info(board));
     }
+
+    @Test
+    public void search1() {
+        // 1 = 2번째 page
+        Pageable pageable = PageRequest.of(1, 10, Sort.by("bno").descending());
+        boardRepository.search1(pageable);
+    }
+
+    @Test
+    public void searchAll() {
+        String[] types = {"t", "c", "w"};
+        String keyword = "1";
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
+        Page<Board> result = boardRepository.seachAll(types, keyword, pageable);
+    }
+
+    @Test
+    public void searchAll2() {
+        String[] types = {"t", "c", "w"};
+        String keyword = "1";
+        Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
+        Page<Board> result = boardRepository.seachAll(types, keyword, pageable);
+        //log.info("getTotalElements={}", result.getTotalElements()); //20
+        log.info("getTotalPages={}", result.getTotalPages());
+        log.info("getSize={}", result.getSize());
+        log.info("getNumber={}", result.getNumber());
+        log.info("hasPrevious={}", result.hasPrevious());
+        log.info("hasNext={}", result.hasNext());
+        result.getContent().forEach(log::info);
+    }
+
 }
