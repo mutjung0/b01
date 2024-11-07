@@ -12,3 +12,7 @@ WHERE
 	OR content LIKE CONCAT('%', '1', '%')
 )
 ORDER BY bno DESC;
+
+
+
+SELECT * FROM reply;
