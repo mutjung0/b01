@@ -1,3 +1,5 @@
+console.log("reply.js loaded");
+
 async function get1(bno) {
     console.log(bno);
     console.log(`replies/list/${bno}`);
@@ -5,6 +7,11 @@ async function get1(bno) {
     console.log(result);
     //return result.data;
     return result;
+}
+
+async function get2(bno) {
+    console.log("get2");
+
 }
 
 async function getList({bno, page, size, goLast}) {
@@ -17,4 +24,25 @@ async function getList({bno, page, size, goLast}) {
 
     }
     return result.data;
+}
+
+async function addReply(replyObj) {
+    const response = await axios.post(`/replies/`,replyObj)
+    return response.data
+}
+
+async function getReply(rno) {
+    const response = await axios.get(`/replies/${rno}`)
+    return response.data
+}
+
+async function modifyReply(replyObj) {
+
+    const response = await axios.put(`/replies/${replyObj.rno}`, replyObj)
+    return response.data
+}
+
+async function removeReply(rno) {
+    const response = await axios.delete(`/replies/${rno}`)
+    return response.data
 }

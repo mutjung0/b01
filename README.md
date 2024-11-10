@@ -7,3 +7,5 @@
 - MariaDB
 - Thymeleaf
 - Spring JPA
+
+http://localhost:8081/board/list
