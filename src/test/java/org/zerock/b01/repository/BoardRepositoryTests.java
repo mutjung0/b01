@@ -8,11 +8,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.b01.domain.Board;
+import org.zerock.b01.domain.BoardImage;
+import org.zerock.b01.dto.BoardListAllDTO;
 import org.zerock.b01.dto.BoardListReplyCountDTO;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -21,6 +26,9 @@ public class BoardRepositoryTests {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private ReplyRepository replyRepository;
 
     //439
     @Test
@@ -145,4 +153,99 @@ public class BoardRepositoryTests {
         result.getContent().forEach(board -> log.info(board));
     }
 
+    // 게시물 하나에 3개의 첨부파일을 추가
+    @Test
+    public void insertWithImages() {
+        Board board  = Board.builder()
+                .title("Image Test")
+                .content("첨부파일테스트")
+                .writer("tester")
+                .build();
+
+        for (int i = 0; i < 3; i++) {
+            board.addImage(UUID.randomUUID().toString(),"file"+i+".jpg");
+        }
+
+        boardRepository.save(board);
+    }
+
+    @Test
+    public void readWithImages() {
+        // 반드시 존재하는 bno로 확인
+        //Optional<Board> result = boardRepository.findById(1L);
+        Optional<Board> result = boardRepository.findByIdWithImages(1L);
+
+        Board board = result.orElseThrow();
+
+        log.info(board);
+        log.info(board.getImageSet()); // org. hibernate. LazyInitializationException: failed to lazily initialize a collection of role: org. zerock. b01.domain. Board. imageSet, could not initialize proxy - no Session
+        for(BoardImage boardImage : board.getImageSet()) {
+            log.info(boardImage);
+        }
+    }
+
+    @Test
+    @Commit
+    @Transactional
+    public void modifyImages() {
+        Optional<Board> result = boardRepository.findByIdWithImages(1L);
+        Board board = result.orElseThrow();
+        board.clearImages(); // 기존 첨부파일 삭제
+        for (int i = 0; i < 2; i++) {
+            board.addImage(UUID.randomUUID().toString(), "updatefile"+i+".jpg");
+        }
+        boardRepository.save(board);
+    }
+
+    @Test
+    @Commit
+    @Transactional
+    public void removeAll() {
+        Long bno = 1L;
+        replyRepository.deleteByBoard_Bno(bno);
+        boardRepository.deleteById(bno);
+    }
+
+    @Test
+    public void insertAll() {
+        for (int i = 1; i <= 100; i++) {
+            Board board = Board.builder()
+                    .title("title..."+i)
+                    .content("content..."+i)
+                    .writer("user"+i)
+                    .build();
+
+            for (int j = 0; j < 3; j++) {
+                if (i % 5 == 0) continue;
+                board.addImage(UUID.randomUUID().toString(), i+"file"+j+".jpg");
+            }
+
+            boardRepository.save(board);
+        } // for
+
+    }
+
+    @Transactional
+    @Test
+    public void testSearchImageReplyCount() {
+
+        Pageable pageable = PageRequest.of(0,10, Sort.by("bno").descending());
+
+        boardRepository.searchWithAll(null, null, pageable);
+    }
+
+    @Transactional
+    @Test
+    public void testSearchImageReplyCount2() {
+
+        Pageable pageable = PageRequest.of(0,10, Sort.by("bno").descending());
+
+        //boardRepository.searchWithAll(null, null, pageable);
+        Page<BoardListAllDTO> result = boardRepository.searchWithAll(null,null,pageable);
+
+        log.info("---------------------------");
+        log.info(result.getTotalElements());
+
+        result.getContent().forEach(boardListAllDTO -> log.info(boardListAllDTO));
+    }
 }

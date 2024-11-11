@@ -16,3 +16,14 @@ ORDER BY bno DESC;
 
 
 SELECT * FROM reply;
+
+SELECT * FROM board_image ORDER BY board_bno;
+SELECT * FROM board_image_set;
+
+
+DELETE FROM board_image WHERE board_bno IS NULL;
+COMMIT;
+
+DROP TABLE board_image;
+DROP TABLE reply;
+DROP TABLE board;
