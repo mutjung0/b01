@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
       layout:decorate="~{layout/basic}">
 <head>
   <meta charset="UTF-8">
@@ -23,7 +24,15 @@
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text">Writer</span>
-              <input type="text" name="writer" class="form-control" placeholder="Writer">
+              <input type="text" name="writer" class="form-control" placeholder="Writer" th:value="${#authentication.principal.username}" readonly>
+            </div>
+            <!--첨부파일-->
+            <div class="input-group mb-3">
+              <span class="input-group-text">Images</span>
+              <div class="float-end uploadHidden">
+                <button type="button" class="btn btn-primary uploadFileBtn">Add files</button>
+              </div>
+
             </div>
             <!--첨부파일-->
             <div class="input-group mb-3">
@@ -79,6 +88,8 @@
   <script src="/js/upload.js"></script>
 </div><!--end layout-->
 <script layout:fragment="script" th:inline="javascript">
+  const auth = [[${#authentication}]];
+
   const errors = [[${errors}]];
   console.log(errors);
 
