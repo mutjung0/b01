@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -22,6 +23,10 @@
       <th:block th:if="${param.logout != null}">
         <h1>Logout........</h1>
       </th:block>
+
+      <div th:if="${param.error}">
+        사용자 ID 또는 비밀번호를 확인해주세요.
+      </div>
 
       <form id="registerForm" action="/member/login" method="post" th:if="${param.logout==null}">
         <div class="input-group mb-3">
