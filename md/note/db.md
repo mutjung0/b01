@@ -20,6 +20,24 @@ Hibernate:
     ) engine=InnoDB
 Hibernate:
 
+    create table member (
+       mid varchar(255) not null,
+        moddate datetime(6),
+        regdate datetime(6),
+        del bit not null,
+        email varchar(255),
+        mpw varchar(255),
+        social bit not null,
+        primary key (mid)
+    ) engine=InnoDB
+Hibernate:
+
+    create table member_role_set (
+       member_mid varchar(255) not null,
+        role_set integer
+    ) engine=InnoDB
+Hibernate:
+
     create table reply (
        rno bigint not null auto_increment,
         moddate datetime(6),
@@ -36,6 +54,12 @@ Hibernate:
        add constraint FKo4dbcmbib7vwlk8eplv2cwbe2 
        foreign key (board_bno) 
        references board (bno)
+Hibernate:
+
+    alter table member_role_set 
+       add constraint FKfjsrs6u4t2kvu8l1brmn8r00a 
+       foreign key (member_mid) 
+       references member (mid)
 Hibernate:
 
     alter table reply 
