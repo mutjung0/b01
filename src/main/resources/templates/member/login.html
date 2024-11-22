@@ -1,18 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout/basic}">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
   <title>Simple Sidebar - login</title>
-  <!-- Favicon-->
-  <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" />
-  <!-- Core theme CSS (includes Bootstrap)-->
-  <link th:href="@{/css/styles.css}" rel="stylesheet" />
 </head>
-<body class="align-middle" >
+<body layout:fragment="content" class="align-middle" >
 <div class="container-fluid d-flex justify-content-center" style="height: 100vh">
 
   <div class="card align-self-center">
@@ -35,19 +29,21 @@
         </div>
         <div class="input-group mb-3">
           <span class="input-group-text">패스워드</span>
-          <input type="text" name="password" class="form-control" placeholder="PASSWORD">
+          <input type="password" name="password" class="form-control" placeholder="PASSWORD">
         </div>
         <div class="input-group mb-3 ">
           <input class="form-check-input" type="checkbox" name="remember-me" id="flexCheckDefault">
           <label class="form-check-label" for="flexCheckDefault"> &nbsp; 자동 로그인 </label>
         </div>
         <div class="my-4">
-          <div class="float-end">
-            <button type="submit" class="btn btn-primary submitBtn">LOGIN</button>
-          </div>
+
+        <button type="submit" class="btn btn-primary w-100 submitBtn">LOGIN</button>
+
         </div>
       </form>
-      <a href="/oauth2/authorization/kakao">KAKAO</a>
+      <a href="/oauth2/authorization/kakao">
+        <img th:src="@{/img/kakao_login_medium_wide.png}" alt="Kakao Login">
+      </a>
     </div><!--end card body-->
   </div><!--end card-->
 </div>

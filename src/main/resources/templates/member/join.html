@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+      layout:decorate="~{layout/basic}">
+<head>
+    <title>Member Join</title>
+</head>
+<div layout:fragment="content">
+    <h4 class="mb-3">Join</h4>
+    <form id="registerForm" action="/member/join" method="post">
+        <div class="mb-3">
+            <label for="mid" class="form-label">MID</label>
+            <input type="text" class="form-control" name="mid" id="mid">
+        </div>
+        <div class="mb-3">
+            <label for="mpw" class="form-label">MPW</label>
+            <input type="password" class="form-control" name="mpw" id="mpw">
+        </div>
+        <div class="mb-3">
+            <label for="mpwc" class="form-label">MPW confirm</label>
+            <input type="password" class="form-control" name="mpwc" id="mpwc">
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">email</label>
+            <input type="email" class="form-control" name="email" id="email">
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary submitBtn">Submit</button>
+        </div>
+    </form>
+</div>
+<script layout:fragment="script" th:inline="javascript">
+    const error = [[${error}]];
+    if (error && error === 'mid') alert('동일한 아이디를 가진 계정이 존재합니다.');
+</script>
